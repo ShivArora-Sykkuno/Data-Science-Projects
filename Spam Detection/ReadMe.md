@@ -1,0 +1,1 @@
+# Model to identify whether the mail is a spam or not
