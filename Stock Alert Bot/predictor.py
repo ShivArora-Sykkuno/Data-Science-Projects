@@ -34,9 +34,8 @@ def fetch_price_latest(ticker):
 
 def fetch_latest_news(ticker, limit=1):
     base_url = "https://newsapi.org/v2/everything"
-    query = ticker.replace(".NS", "")  # remove .NS for better results
+    query = ticker.replace(".NS", "")
     
-    # First try: last 7 days
     params = {
         "q": query,
         "from": (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d"),
@@ -50,8 +49,7 @@ def fetch_latest_news(ticker, limit=1):
         data = resp.json()
         if "articles" in data and len(data["articles"]) > 0:
             return data["articles"][0]["title"]
-        
-        # Fallback: last 60 days
+    
         params["from"] = (datetime.now() - timedelta(days=60)).strftime("%Y-%m-%d")
         resp = requests.get(base_url, params=params)
         data = resp.json()
@@ -109,7 +107,6 @@ def predict_ticker(ticker, price_model, sent_pipe):
     }
 
 if __name__ == "__main__":
-    # Load models once
     price_model = load(PRICE_MODEL_PATH)
     tokenizer = AutoTokenizer.from_pretrained(SENT_MODEL_PATH)
     model = AutoModelForSequenceClassification.from_pretrained(SENT_MODEL_PATH)
@@ -123,11 +120,9 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error for {t}: {e}")
 
-    # Keep only top 7 movers
     results = sorted(results, key=lambda x: x["change_abs"], reverse=True)[:7]
     df_out = pd.DataFrame(results).drop(columns=["change_abs"])
 
-    # Save to CSV
     df_out.to_csv(CSV_PATH, mode="a", header=not pd.io.common.file_exists(CSV_PATH), index=False)
 
     print("✅ Predictions saved to CSV")
