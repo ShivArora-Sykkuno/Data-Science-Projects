@@ -1,4 +1,4 @@
-# predictor.py
+
 import pandas as pd
 import numpy as np
 import yfinance as yf
@@ -12,7 +12,7 @@ PRICE_MODEL_PATH = "SAmodel/price_model/xgb_price_model.joblib"
 SENT_MODEL_PATH = "SAmodel/sentiment_model"
 CSV_PATH = "alert_log.csv"
 
-NEWS_API_KEY = "0a22dd9afa05422289935d324470a150"
+NEWS_API_KEY = "##"
 
 TICKERS = [
     "AAPL", "MSFT", "TSLA", "GOOG", "AMZN",
